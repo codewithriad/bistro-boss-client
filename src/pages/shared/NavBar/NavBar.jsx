@@ -16,6 +16,9 @@ const NavBar = () => {
       <li>
         <NavLink to="/dashboard">Dashboard</NavLink>
       </li>
+      <li>
+        <NavLink to="/shop/salad">Our Shop</NavLink>
+      </li>
     </>
   );
   return (
