@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const { googlePopUp } = useContext(AuthContext);
   const captchaRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -21,6 +25,15 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    form.reset();
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "User loggedIn successfully.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    navigate("/");
   };
   const handleValidateCaptcha = () => {
     const user_captcha_value = captchaRef.current.value;
@@ -29,6 +42,9 @@ const Login = () => {
     } else {
       setDisable(true);
     }
+  };
+  const googleSignIn = () => {
+    googlePopUp().then().catch();
   };
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -98,6 +114,9 @@ const Login = () => {
           <p className="text-center mb-2">
             New here? <Link to="/signUp">Please Sign Up!</Link>
           </p>
+          <button className="btn" onClick={googleSignIn}>
+            <b>Google</b>
+          </button>
         </div>
       </div>
     </div>
