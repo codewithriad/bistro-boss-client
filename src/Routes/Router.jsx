@@ -7,6 +7,13 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import Secret from "../pages/shared/Secret/Secret";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Dashboard from "../Layout/Dashboard";
+import MyCart from "../pages/Dashboard/MyCart/MyCart";
+import UserHome from "../pages/Dashboard/UserHome/UserHome";
+import MyReservation from "../pages/Dashboard/MyReservation/MyReservation";
+import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import AddReview from "../pages/Dashboard/AddReview/AddReview";
+import MyBooking from "../pages/Dashboard/MyBooking/MyBooking";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +47,36 @@ export const router = createBrowserRouter([
             <Secret />
           </PrivateRoute>
         ),
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "/dashboard/myCart",
+        element: <MyCart />,
+      },
+      {
+        path: "/dashboard/userHome",
+        element: <UserHome />,
+      },
+      {
+        path: "/dashboard/reservation",
+        element: <MyReservation />,
+      },
+      {
+        path: "/dashboard/paymentHistory",
+        element: <PaymentHistory />,
+      },
+      {
+        path: "/dashboard/addReview",
+        element: <AddReview />,
+      },
+      {
+        path: "/dashboard/myBooking",
+        element: <MyBooking />,
       },
     ],
   },

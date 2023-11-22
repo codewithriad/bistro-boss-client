@@ -2,16 +2,19 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 import icon from "../../../assets/icon/icon.png";
+import { FaShoppingCart } from "react-icons/fa";
+import useCard from "../../../Hooks/useCard";
 
 const NavBar = () => {
   const { logOut, user } = useContext(AuthContext);
+  const [cart] = useCard();
   const handleLogOut = () => {
     logOut()
       .then()
       .catch((err) => console.log(err));
   };
   const links = (
-    <>
+    <ul className="flex items-center">
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
@@ -30,6 +33,12 @@ const NavBar = () => {
       <li>
         <NavLink to="/secret">Secret</NavLink>
       </li>
+      <li>
+        <NavLink to="/dashboard/myCart">
+          <FaShoppingCart />
+          <div className="badge badge-secondary">+{cart.length}</div>
+        </NavLink>
+      </li>
       {user ? (
         <>
           <div onClick={handleLogOut} className="btn btn-ghost">
@@ -43,7 +52,7 @@ const NavBar = () => {
           </li>
         </>
       )}
-    </>
+    </ul>
   );
   return (
     <div className="navbar max-w-screen-xl fixed z-20 bg-[#0000001c] text-white">
@@ -89,7 +98,11 @@ const NavBar = () => {
           </>
         ) : (
           <>
-            <img src={icon} alt="photo" className="rounded-full w-12 h-12" />
+            <div className="avatar">
+              <div className="rounded-full w-12 h-12">
+                <img src={icon} />
+              </div>
+            </div>
           </>
         )}
       </div>

@@ -21,21 +21,22 @@ const SignUp = () => {
   // const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    newUser(data.email, data.password);
-    updateUserProfile(data.name, data.photoURL)
-      .then(() => {
-        console.log("user profile info updated");
-        reset();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "User created successfully.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+    newUser(data.email, data.password).then((res) => {
+      console.log(res.user);
+      updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          console.log("User profile info updated");
+          reset();
+          Swal.fire({
+            icon: "success",
+            title: "User created successfully.",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
+    });
   };
 
   return (
