@@ -14,6 +14,7 @@ import MyReservation from "../pages/Dashboard/MyReservation/MyReservation";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import AddReview from "../pages/Dashboard/AddReview/AddReview";
 import MyBooking from "../pages/Dashboard/MyBooking/MyBooking";
+import AllUsers from "../pages/Dashboard/Admin/AllUsers/AllUsers";
 
 export const router = createBrowserRouter([
   {
@@ -51,17 +52,27 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/dashboard/myCart",
         element: <MyCart />,
       },
+      // admin routes
+      {
+        path: "/dashboard/allUsers",
+        element: <AllUsers />,
+      },
       {
         path: "/dashboard/userHome",
         element: <UserHome />,
       },
+      // ...........
       {
         path: "/dashboard/reservation",
         element: <MyReservation />,

@@ -6,10 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
-// import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import SocialLogin from "../../components/socialLogin";
 
 const SignUp = () => {
-  // const axiosPublic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const {
     register,
@@ -18,22 +19,28 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const { newUser, updateUserProfile } = useContext(AuthContext);
-  // const navigate = useNavigate();
 
   const onSubmit = (data) => {
     newUser(data.email, data.password).then((res) => {
       console.log(res.user);
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          console.log("User profile info updated");
-          reset();
-          Swal.fire({
-            icon: "success",
-            title: "User created successfully.",
-            showConfirmButton: false,
-            timer: 2000,
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              reset();
+              Swal.fire({
+                icon: "success",
+                title: "User created successfully.",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              navigate("/");
+            }
           });
-          navigate("/");
         })
         .catch((err) => console.log(err));
     });
@@ -146,12 +153,15 @@ const SignUp = () => {
                 />
               </div>
             </form>
-            <p className="px-6">
-              <small>
-                Already have an account <Link to="/login">Login</Link>
-              </small>
+            <p className="px-6 text-center">
+              Already have an account{" "}
+              <Link to="/login">
+                <span className="text-red-500">Login</span>
+              </Link>
             </p>
-            {/* <SocialLogin></SocialLogin> */}
+            <p className="text-center">
+              <SocialLogin />
+            </p>
           </div>
         </div>
       </div>
